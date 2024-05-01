@@ -2,8 +2,8 @@ export const authConfig = {
   pages: {
     signIn: "/login",
   },
-  jwt: {
-    secret: "as12k245",
+  session: {
+    maxAge: 60 * 60,
   },
   providers: [],
   callbacks: {

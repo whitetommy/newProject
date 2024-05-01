@@ -15,7 +15,7 @@ export const addUser = async (prevState, formData) => {
       data: {
         name,
         email,
-        password,
+        password: await bcrypt.hash(password, 10),
         isAdmin: isAdminBool,
       },
     });
