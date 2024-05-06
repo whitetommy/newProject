@@ -1,6 +1,16 @@
 import { unstable_noStore as noStore } from "next/cache";
 import { PrismaClient } from "@prisma/client";
 
+export const getPosts = async () => {
+  const prisma = new PrismaClient({});
+  try {
+    const posts = await prisma.post.findMany();
+    return posts;
+  } catch (err) {
+    console.log(err);
+    throw new Error("Failed to fetch posts!");
+  }
+};
 export const getUser = async (email) => {
   const prisma = new PrismaClient({});
   noStore();
