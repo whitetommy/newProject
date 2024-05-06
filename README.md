@@ -38,3 +38,6 @@ npx prisma migrate dev --name <새로운 이름>
 npx prisma db push
 npx prisma generate
 이전의 migration 파일은 굳이 삭제할 필요 없음
+
+날짜 처리를 위해
+npm install date-fns
