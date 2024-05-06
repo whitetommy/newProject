@@ -2,8 +2,53 @@
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+  padding: 20px;
+  justify-content: center;
+  background-color: #f0f0f0; /* Light grey background */
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .post {
+  background-color: white;
   width: 30%;
+  border: 1px solid #ccc;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+  color: black;
 }
+
+/* 제목, 날짜, 상태 사이의 간격 */
+.post h2, .post p {
+  margin-bottom: 10px; 
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 10px;
+}
+
+.button {
+  padding: 10px 20px;
+  margin-right: 10px;
+  background-color: #281bbb;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+/* 버튼에 마우스 커서 올렸을 때, 색상 변화(약간 어둡게) */
+.button:hover {
+  background-color: #111a99;
+}
+
+
