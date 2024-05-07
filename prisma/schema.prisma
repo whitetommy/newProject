@@ -22,6 +22,7 @@ model Projects {
   title     String
   path      String
   framework String
+  updatedAt DateTime @updatedAt
   isPublic  Boolean @default(false)
   author    User    @relation(fields: [authorId], references: [id])
   authorId  Int

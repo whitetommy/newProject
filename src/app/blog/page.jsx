@@ -2,7 +2,7 @@ import PostCard from "@/components/postCard/postCard";
 import styles from "./blog.module.css";
 
 const getData = async () => {
-  const res = await fetch("http://localhost:3000/api/blog", {next:{revalidate:3600}});
+  const res = await fetch("https://new-project-eight-sigma.vercel.app/api/blog", {next:{revalidate:3600}});
 
   if (!res.ok) {
     throw new Error("Something went wrong");

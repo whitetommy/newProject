@@ -6,7 +6,12 @@ const prisma = new PrismaClient({});
 
 export const GET = async (request) => {
   try {
-    const posts = await prisma.projects.findMany();
+    
+    const posts = await prisma.projects.findMany({
+      where:{
+        isPublic: false,
+      }
+    });
     return NextResponse.json(posts);
   } catch (err) {
     console.log(err);

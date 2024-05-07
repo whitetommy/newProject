@@ -6,6 +6,9 @@
 
 .post {
   width: 30%;
+  padding: 15px;
+  border-radius: 6px;
+  background: var(--bgSoft);
 }
 
 @media screen and (max-width: 1280px) {
