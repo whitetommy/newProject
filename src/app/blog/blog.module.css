@@ -2,13 +2,24 @@
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+  padding: 20px;
+  justify-content: center; 
+  background-color: #f0f0f0;
 }
 
 .post {
+  background-color: white;
   width: 30%;
-  padding: 15px;
-  border-radius: 6px;
-  background: var(--bgSoft);
+  border: 1px solid #ccc; 
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+  margin-bottom: 20px;
+  color: black; 
+}
+
+/* postcard 눌렀을 때 색상 변화(연한 파란색) */
+.post:hover {
+  background-color: #e0f7fa;
 }
 
 @media screen and (max-width: 1280px) {
