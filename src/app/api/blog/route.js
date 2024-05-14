@@ -9,7 +9,7 @@ export const GET = async (request) => {
     
     const posts = await prisma.projects.findMany({
       where:{
-        isPublic: false,
+        isPublic: true,
       }
     });
     return NextResponse.json(posts);
