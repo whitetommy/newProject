@@ -56,3 +56,8 @@
   background-color: #e0f7fa; 
 }
 
+/* 파일 업로드할 때, 파일명 보여주기 */
+.selectedFile {
+  color: black;
+  size: 10px;
+}

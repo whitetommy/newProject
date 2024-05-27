@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import styles from './mypage.module.css';
+import axios from 'axios';
 
 const MyPage = () => {
   const [projects, setProjects] = useState([
@@ -11,17 +12,44 @@ const MyPage = () => {
   const [newTitle, setNewTitle] = useState('');
   const [selectedVisibility, setSelectedVisibility] = useState('private');
   const [selectedProjectIds, setSelectedProjectIds] = useState([]);
+  const [file, setFile] = useState(null);
 
-  const handleCreateProject = () => {
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleCreateProject = async () => {
+    if (!file) {
+      alert('파일을 먼저 선택해 주세요.');
+      return;
+    }
+
     const newProject = {
       id: projects.length + 1,
       title: newTitle,
       date: new Date().toISOString().split('T')[0],
       visibility: selectedVisibility
     };
-    setProjects([...projects, newProject]);
-    setNewTitle('');
-    setSelectedVisibility('private');
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('title', newTitle);
+    formData.append('visibility', selectedVisibility);
+
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/upload`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log('업로드 성공:', response.data);
+      setProjects([...projects, newProject]);
+      setNewTitle('');
+      setSelectedVisibility('private');
+      setFile(null);
+    } catch (error) {
+      console.error('업로드 실패:', error.response ? error.response.data : error.message);
+    }
   };
 
   const handleDeleteProject = () => {
@@ -67,6 +95,8 @@ const MyPage = () => {
           <option value="private">Private</option>
           <option value="public">Public</option>
         </select>
+        <input type="file" name="file" onChange={handleFileChange} />
+        {file && <p className={styles.selectedFile}>선택된 파일: {file.name}</p>}
         <button className={styles.button} onClick={handleCreateProject}>새 프로젝트</button>
         <button className={styles.button} onClick={handleModifyProject} disabled={selectedProjectIds.length === 0}>수정</button>
         <button className={styles.button} onClick={handleDeleteProject} disabled={selectedProjectIds.length === 0}>삭제</button>
