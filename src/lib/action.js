@@ -5,6 +5,27 @@ import { signIn, signOut } from "./auth";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
+export const deletePost = async (formData) => {
+  const { id } = Object.fromEntries(formData);
+
+  try {
+    const prisma = new PrismaClient({});
+
+    await prisma.user.delete({
+      where: {
+        id: id,
+      },
+    });
+
+    console.log("deleted from db");
+    revalidatePath("/blog");
+    revalidatePath("/admin");
+  } catch (err) {
+    console.log(err);
+    return { error: "Something went wrong!" };
+  }
+};
+
 export const addUser = async (prevState, formData) => {
   const { name, email, password, isAdmin } = Object.fromEntries(formData);
 

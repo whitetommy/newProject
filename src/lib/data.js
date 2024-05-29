@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client";
 export const getPosts = async () => {
   const prisma = new PrismaClient({});
   try {
-    const posts = await prisma.post.findMany();
+    const posts = await prisma.projects.findMany();
     return posts;
   } catch (err) {
     console.log(err);

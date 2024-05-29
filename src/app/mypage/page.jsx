@@ -3,22 +3,27 @@ import React, { useState } from 'react';
 import styles from './mypage.module.css';
 import axios from 'axios';
 import { ClipLoader } from 'react-spinners';
-import ReactMarkdown from 'react-markdown';
+import { useRouter } from 'next/navigation';
+
 
 const MyPage = () => {
+
+  const router = useRouter();
+
   const [projects, setProjects] = useState([
     { id: 1, title: 'Sample1', date: '2022-04-13', visibility: 'private' },
     { id: 2, title: 'Sample2', date: '2022-04-14', visibility: 'public' },
     { id: 3, title: 'Sample3', date: '2022-04-15', visibility: 'private' },
   ]);
+
   const [newTitle, setNewTitle] = useState('');
   const [selectedVisibility, setSelectedVisibility] = useState('private');
   const [selectedProjectIds, setSelectedProjectIds] = useState([]);
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [analysisResult, setAnalysisResult] = useState(null);
-  const [loadingAnalysis, setLoadingAnalysis] = useState(false);
   const [error, setError] = useState(null);
+  const [responseId, setResponseId] = useState();
+
 
   //file은 zip파일만 허용
   const handleFileChange = (e) => {
@@ -65,6 +70,7 @@ const MyPage = () => {
       setNewTitle('');
       setSelectedVisibility('private');
       setFile(null);
+      setResponseId(response.data.id);
     } catch (error) {
       console.error('업로드 실패:', error.response ? error.response.data : error.message);
     } finally {
@@ -99,14 +105,25 @@ const MyPage = () => {
   };
 
   const handleViewAnalysis = async (id) => {
+    setLoading(true);
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/analysis/${id}`); //프로젝트 인덱스 id
-      // const response = await axios.get(`http://localhost:3000/api/analysis/${id}`); 
-      setAnalysisResult(response.data);
+      // const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/analyze/?file_id=${id}`);
+      // setAnalysisResult(response.data);
+      router.push(`/mypage/${id}`);
     } catch (error) {
-      console.error('분석 결과 가져오기 실패:', error.response ? error.response.data : error.message);
+      console.error('페이지 이동 실패:', error.message);
+      // console.error('분석 결과 가져오기 실패:', error.response ? error.response.data : error.message);
+    } finally {
+      setLoading(false);
     }
   };
+
+  // const handleViewMarkdown = (id) => {
+
+  //   router.push(`/mypage/${id}`);
+
+  // };
+
 
   return (
     <div>
@@ -143,16 +160,17 @@ const MyPage = () => {
           <p>생성 날짜: {project.date}</p>
           <p>공개 여부: {project.visibility === 'private' ? 'Private' : 'Public'}</p>
           <div className={styles.buttonGroup}>
-            <button className={styles.button} onClick={() => handleViewAnalysis(project.id)}>
-                결과 보기
+            <button className={styles.button} onClick={() => handleViewAnalysis(responseId)}>
+                {loading ? <ClipLoader size={24} color="red" /> : '결과 보기' }
             </button>
           </div>
-            {analysisResult && (
+          {/* {analysisResult && (
               <div className={styles.analysisResult}>
                 <h2>분석 결과</h2>
-                <ReactMarkdown>{analysisResult}</ReactMarkdown>
+                <ReactMarkdown>{typeof analysisResult === 'string' ? analysisResult : JSON.stringify(analysisResult)}</ReactMarkdown>
               </div>
-            )}
+            )} */}
+
           </div>
         ))}
       </div>
@@ -161,7 +179,6 @@ const MyPage = () => {
 };
 
 export default MyPage;
-
 
 
 
