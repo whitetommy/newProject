@@ -12,6 +12,7 @@
   border: none;
   border-radius: 5px;
   color: var(--textColor);
+  font-size: 15px;
 }
 
 .container button {
@@ -20,6 +21,6 @@
   background-color: var(--btn);
   border: none;
   border-radius: 5px;
-  color: var(--textColor);
+  color: white;
   font-weight: bold;
 }

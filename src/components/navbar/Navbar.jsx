@@ -7,13 +7,16 @@ const Navbar = async () => {
   const session = await auth();
 
   return (
-    <div className={styles.container}>
-      <Link href="/" className={styles.logo}>
-        WebSiteName
-      </Link>
-      <div>
-        <Links session={session} />
+    <div>
+      <div className={styles.container}>
+        <Link href="/" className={styles.logo}>
+          WebSiteName
+        </Link>
+        <div>
+          <Links session={session} />
+        </div>
       </div>
+      <hr width="100%" color="black"></hr>
     </div>
   );
 };

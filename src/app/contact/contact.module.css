@@ -4,7 +4,8 @@
   gap: 20px;
   padding: 20px;
   justify-content: center;
-  background-color: #f0f0f0; 
+  background-color: #dcdcdc; 
+  border-radius: 5px;
 }
 
 .formContainer {
@@ -20,21 +21,23 @@
 .form input,
 .form textarea {
   padding: 20px;
-  border-radius: 5px;
+  border-radius: 8px;
   border: none;
   outline: none;
-  background-color: var(--bgSoft);
+  background-color: var(--bg);
   color: var(--text);
+  font-size: 15px;
 }
 
 .form button {
   padding: 20px;
   background-color: var(--btn);
-  color: var(--text);
+  color: var(--bg);
   font-weight: bold;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 15px;
 }
 
 @media (max-width: 768px) {

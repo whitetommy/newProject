@@ -128,7 +128,7 @@ const MyPage = () => {
   return (
     <div>
       <div className={styles.header}>
-        <h1>My Projects</h1>
+        <div className={styles.inputContainer}>
         <input
           type="text"
           placeholder="제목을 입력하세요"
@@ -145,9 +145,12 @@ const MyPage = () => {
         <input type="file" name="file" accept='.zip' onChange={handleFileChange} />
         {file && <p className={styles.selectedFile}>선택된 파일: {file.name}</p>}
         {error && <p style={{ color: 'red' }}>{error}</p>}
+        </div>
+        <div className={styles.buttonContainer}>
         <button className={styles.button} onClick={handleCreateProject} disabled={loading}>새 프로젝트(분석 요청)</button>
         <button className={styles.button} onClick={handleModifyProject} disabled={selectedProjectIds.length === 0}>수정</button>
         <button className={styles.button} onClick={handleDeleteProject} disabled={selectedProjectIds.length === 0}>삭제</button>
+        </div>
       </div>
       <div className={styles.container}>
       {projects.map(project => (
@@ -170,8 +173,7 @@ const MyPage = () => {
                 <ReactMarkdown>{typeof analysisResult === 'string' ? analysisResult : JSON.stringify(analysisResult)}</ReactMarkdown>
               </div>
             )} */}
-
-          </div>
+           </div>
         ))}
       </div>
     </div>

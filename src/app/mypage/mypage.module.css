@@ -10,11 +10,28 @@
 .header {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
   padding: 20px;
   background-color: white;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.inputContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 10px;
+  flex-wrap: wrap;
 }
 
 .post {
@@ -27,7 +44,6 @@
   color: black;
 }
 
-/* 제목, 날짜, 상태 사이의 간격 */
 .post h2, .post p {
   margin-bottom: 10px; 
 }
@@ -38,12 +54,14 @@
 }
 
 .button {
-  padding: 10px 20px;
-  margin-right: 10px;
-  background-color: #281bbb;
+  padding: 10px 25px;
+  margin: 5px;
   color: white;
   border: none;
   cursor: pointer;
+  background-color: var(--btn);
+  border-radius: 3px;
+  font-size: 16px;
 }
 
 /* 버튼에 마우스 커서 올렸을 때, 색상 변화(약간 어둡게) */
@@ -59,7 +77,9 @@
 /* 파일 업로드할 때, 파일명 보여주기 */
 .selectedFile {
   color: black;
-  size: 10px;
+  font-size: 16px;
+  margin: 10px;
+  padding: 5px;
 }
 
 .analysisResult {
@@ -67,4 +87,55 @@
   padding: 20px;
   border: 1px solid #ccc;
   background-color: #f9f9f9;
+}
+
+.inputContainer input[type="text"],
+.inputContainer select,
+.inputContainer input[type="file"] {
+  padding: 5px;
+  font-size: 16px;
+}
+
+@media (max-width: 1200px) {
+  .post {
+    width: 45%;
+  }
+}
+
+@media (max-width: 768px) {
+  .post {
+    width: 100%;
+  }
+
+  .header {
+    align-items: center;
+  }
+
+  .inputContainer {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .buttonContainer {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .header input[type="text"],
+  .header select,
+  .header input[type="file"],
+  .header button,
+  .button {
+    width: 100%;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+.header .button + .button {
+  margin-left: 5px;
 }

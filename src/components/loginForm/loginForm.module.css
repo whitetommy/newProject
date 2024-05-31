@@ -11,14 +11,16 @@
   color: var(--textColor);
   border: none;
   border-radius: 5px;
+  font-size: 15px;
 }
 
 .form button{
   padding: 20px;
   cursor: pointer;
   background-color: var(--btn);
-  color: var(--textColor);
+  color: white;
   font-weight: bold;
   border: none;
   border-radius: 5px;
+  font-size: 15px;
 }
