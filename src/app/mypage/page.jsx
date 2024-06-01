@@ -57,7 +57,7 @@ const MyPage = () => {
       date: new Date().toISOString().split('T')[0],
       visibility: selectedVisibility
     };
-
+    console.log(session);
     console.log(session.user.id);
 
     const formData = new FormData();
@@ -66,7 +66,7 @@ const MyPage = () => {
     formData.append('visibility', selectedVisibility);
 
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/upload`, formData, {
+      const response = await axios.post(`/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
