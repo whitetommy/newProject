@@ -66,7 +66,7 @@ const MyPage = () => {
     formData.append('visibility', selectedVisibility);
 
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/upload`, formData, {
+      const response = await axios.post(`api/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
