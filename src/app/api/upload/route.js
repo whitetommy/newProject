@@ -1,4 +1,3 @@
-// app/api/upload/route.js
 import { NextResponse } from 'next/server';
 import https from 'https';
 import axios from 'axios';
@@ -13,11 +12,7 @@ const axiosInstance = axios.create({
   },
 });
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+export const dynamic = 'force-dynamic';
 
 export async function POST(request) {
   try {
