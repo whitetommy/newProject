@@ -1,19 +1,20 @@
 import axios from 'axios';
 import http from 'http';
+import FormData from 'form-data';
 
 export async function POST(req) {
-  let data;
-
   try {
-    data = await req.json();
-  } catch (error) {
-    return new Response(JSON.stringify({ error: 'Invalid JSON' }), {
-      status: 400,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  }
+    const formData = new FormData();
 
-  try {
+    // Read the request body as a stream
+    const body = await req.arrayBuffer();
+    const buffer = Buffer.from(body);
+
+    // Parse the form data from the buffer
+    formData.append('file', buffer, 'upload.zip');
+    formData.append('title', req.headers.get('title'));
+    formData.append('visibility', req.headers.get('visibility'));
+
     const axiosInstance = axios.create({
       baseURL: process.env.NEXT_PUBLIC_API_URL,
       httpAgent: new http.Agent({
@@ -21,7 +22,10 @@ export async function POST(req) {
       }),
     });
 
-    const response = await axiosInstance.post('/upload', data);
+    const response = await axiosInstance.post('/upload', formData, {
+      headers: formData.getHeaders(),
+    });
+
     return new Response(JSON.stringify(response.data), {
       status: response.status,
       headers: { 'Content-Type': 'application/json' },
