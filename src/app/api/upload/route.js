@@ -1,3 +1,4 @@
+// app/api/upload/route.js
 import { NextResponse } from 'next/server';
 import https from 'https';
 import axios from 'axios';
@@ -8,15 +9,20 @@ const axiosInstance = axios.create({
     rejectUnauthorized: false,
   }),
   headers: {
-    'Content-Type': 'application/json',
+    'Content-Type': 'multipart/form-data',
   },
 });
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
 export async function POST(request) {
   try {
     const formData = await request.formData();
     const file = formData.get('file');
-
     const buffer = await file.arrayBuffer();
     const blob = new Blob([buffer], { type: file.type });
 
@@ -34,9 +40,3 @@ export async function POST(request) {
     return NextResponse.json({ error: error.message }, { status: error.response?.status || 500 });
   }
 }
-
-export const config = {
-  api: {
-    bodyParser: false, 
-  },
-};
