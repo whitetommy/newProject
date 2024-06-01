@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
-import https from 'https';
+import http from 'http';
 import axios from 'axios';
 
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
-  httpsAgent: new https.Agent({
-    rejectUnauthorized: false,
+  httpAgent: new http.Agent({
+    rejectUnauthorized: false, 
   }),
   headers: {
     'Content-Type': 'multipart/form-data',
