@@ -2,8 +2,18 @@ import axios from 'axios';
 import http from 'http';
 
 export async function POST(req) {
+  let data;
+
   try {
-    const data = await req.json();
+    data = await req.json();
+  } catch (error) {
+    return new Response(JSON.stringify({ error: 'Invalid JSON' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  try {
     const axiosInstance = axios.create({
       baseURL: process.env.NEXT_PUBLIC_API_URL,
       httpAgent: new http.Agent({
