@@ -1,12 +1,70 @@
 .container {
-    padding: 20px;
-  }
-  
-  .analysisResult {
-    margin-top: 20px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    background-color: #f9f9f9;
-    color: black;
-    white-space: normal;
-  }
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.analysisResult {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  color: #444;
+  white-space: normal;
+}
+
+/* Report */
+.reportMainTitle {
+  font-size: 2.5em; /* Increased font size for the main report title */
+  margin-bottom: 1.5em;
+  color: #111;
+}
+
+/* 분석 결과 */
+.reportTitle {
+  font-size: 1.2em;
+  margin-bottom: 1.5em;
+}
+
+.sectionTitle {
+  font-size: 1.5em;
+  margin-bottom: 0.5em;
+  color: #2a2828;
+}
+
+.subSectionTitle {
+  font-size: 1.2em;
+  margin-bottom: 0.5em;
+  color: #444;
+}
+
+.paragraph {
+  font-size: 1em;
+  line-height: 1.6;
+  margin-bottom: 1em;
+}
+
+.codeBlock {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #f4f4f4;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.preformatted {
+  background-color: #333;
+  color: #f8f8f2;
+  padding: 10px;
+  border-radius: 4px;
+  overflow: auto;
+  margin-bottom: 20px;
+}
+
+.list {
+  margin-left: 20px;
+  list-style-type: disc;
+  margin-bottom: 30px;
+}
+
+.listItem {
+  margin-bottom: 0.2em;
+}

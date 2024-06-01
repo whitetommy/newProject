@@ -3,11 +3,8 @@ import React, { useState, useEffect } from 'react';
 import styles from './mypage.module.css';
 import axios from 'axios';
 import { ClipLoader } from 'react-spinners';
-import ReactMarkdown from 'react-markdown';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { format, parseISO } from 'date-fns';
-import { ko } from 'date-fns/locale';
 
 const MyPage = () => {
   const [projects, setProjects] = useState([]);

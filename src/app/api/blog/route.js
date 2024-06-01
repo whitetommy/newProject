@@ -6,11 +6,10 @@ const prisma = new PrismaClient({});
 
 export const GET = async (request) => {
   try {
-    
     const posts = await prisma.projects.findMany({
-      where:{
+      where: {
         isPublic: true,
-      }
+      },
     });
     return NextResponse.json(posts);
   } catch (err) {
