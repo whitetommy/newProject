@@ -1,15 +1,25 @@
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
 
 const prisma = new PrismaClient();
 
 export async function GET(req) {
   try {
+    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+    if (!token) {
+      return NextResponse.json({ error: "인증되지 않음" }, { status: 401 });
+    }
+
+    console.log(token.sub); //"13"이 찍힘
+
+    // 여기 에러
     const projects = await prisma.projects.findMany({
       where: {
-        authorId: req.authorId,
+        authorId: parseInt(token.sub),
       },
     });
+
     return NextResponse.json(projects, { status: 200 });
   } catch (error) {
     return NextResponse.json(
@@ -21,6 +31,10 @@ export async function GET(req) {
 
 export async function POST(req) {
   try {
+    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+    if (!token) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     const { title, path, framework, visibility, authorId } = await req.json();
     const newProject = await prisma.projects.create({
       data: {
@@ -28,7 +42,7 @@ export async function POST(req) {
         path,
         framework,
         isPublic: visibility === "public",
-        authorId,
+        authorId: parseInt(token.sub),
       },
     });
     return NextResponse.json(newProject, { status: 201 });

@@ -20,15 +20,20 @@ const MyPage = () => {
 
   useEffect(() => {
     const fetchProjects = async () => {
+      if (!session) return;
       try {
-        const response = await axios.get('/api/project');
+        const response = await axios.get('/api/project', {
+          headers: {
+            Authorization: `Bearer ${session.accessToken}`,
+          },
+        });
         setProjects(response.data);
       } catch (error) {
         console.error('프로젝트 fetching 에러:', error);
       }
     };
     fetchProjects();
-  }, []);
+  }, [session]);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -54,8 +59,6 @@ const MyPage = () => {
       date: new Date().toISOString().split('T')[0],
       visibility: selectedVisibility
     };
-    console.log(session);
-    console.log(session.user.id);
 
     const formData = new FormData();
     formData.append('file', file);
@@ -63,9 +66,10 @@ const MyPage = () => {
     formData.append('visibility', selectedVisibility);
 
     try {
-      const response = await axios.post(`/api/upload`, formData, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/upload`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'multipart/form-data',   
+          Authorization: `Bearer ${session.accessToken}`, 
         },
       });
       console.log('업로드 성공:', response.data);
@@ -77,9 +81,11 @@ const MyPage = () => {
         framework: "javascript",
         isPublic: newProject.visibility === 'public',
         authorId: session.user.id,
+      }, {
+        headers: {
+          Authorization: `Bearer ${session.accessToken}`,
+        },
       });
-
-      console.log("resdata : ", response.data);
 
       setProjects([...projects, { ...newProject, id: projectResponse.data.id }]);
       setNewTitle('');
@@ -87,12 +93,6 @@ const MyPage = () => {
       setFile(null);
       setResponseId(response.data.id);
       setLoading(true);
-
-      console.log("responseId", responseId);
-      console.log("response.data.id", response.data.id);
-
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/analyze/?file_id=${response.data.id}`);
-      console.log(res.data);
     } catch (error) {
       console.error('업로드 실패:', error.response ? error.response.data : error.message);
     } finally {
@@ -103,7 +103,11 @@ const MyPage = () => {
   const handleDeleteProject = async () => {
     for (let id of selectedProjectIds) {
       try {
-        await axios.delete(`/api/project/${id}`);
+        await axios.delete(`/api/project/${id}`, {
+          headers: {
+            Authorization: `Bearer ${session.accessToken}`,
+          },
+        });
       } catch (error) {
         console.error('프로젝트 삭제 에러:', error);
       }
@@ -118,6 +122,10 @@ const MyPage = () => {
         await axios.put(`/api/project/${id}`, {
           title: newTitle || projects.find(project => project.id === id).title,
           isPublic: selectedVisibility === 'public',
+        }, {
+          headers: {
+            Authorization: `Bearer ${session.accessToken}`,
+          },
         });
       } catch (error) {
         console.error('프로젝트 수정 에러:', error);
