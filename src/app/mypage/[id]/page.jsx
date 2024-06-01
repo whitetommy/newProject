@@ -15,7 +15,7 @@ const AnalysisPage = () => {
       const fetchAnalysisResult = async () => {
         try {
           console.log(`Fetching analysis result for file_id=${id}`);
-          const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/analyze/?file_id=${id}`);
+          const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/patch/?file_id=${id}`);
           console.log('Response:', response);
           setAnalysisResult(response.data);
         } catch (error) {

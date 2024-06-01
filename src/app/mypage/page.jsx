@@ -5,6 +5,9 @@ import axios from 'axios';
 import { ClipLoader } from 'react-spinners';
 import ReactMarkdown from 'react-markdown';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { format, parseISO } from 'date-fns';
+import { ko } from 'date-fns/locale';
 
 const MyPage = () => {
   const [projects, setProjects] = useState([]);
@@ -13,11 +16,10 @@ const MyPage = () => {
   const [selectedProjectIds, setSelectedProjectIds] = useState([]);
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [analysisResult, setAnalysisResult] = useState('');
-  const [loadingAnalysis, setLoadingAnalysis] = useState(false);
   const [error, setError] = useState(null);
   const [responseId, setResponseId] = useState();
-  const {data: session} = useSession();
+  const {data: session, status} = useSession();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -48,7 +50,6 @@ const MyPage = () => {
       alert('파일을 먼저 선택해 주세요.');
       return;
     }
-    setLoading(true);
 
     const newProject = {
       id: projects.length + 1,
@@ -56,6 +57,8 @@ const MyPage = () => {
       date: new Date().toISOString().split('T')[0],
       visibility: selectedVisibility
     };
+
+    console.log(session.user.id);
 
     const formData = new FormData();
     formData.append('file', file);
@@ -69,21 +72,30 @@ const MyPage = () => {
         },
       });
       console.log('업로드 성공:', response.data);
-      newProject.path = response.data.path; // 서버에서 반환된 파일 경로
+      newProject.id = response.data.id; // 서버에서 반환된 파일 경로
 
       const projectResponse = await axios.post('/api/project', {
         title: newProject.title,
-        path: newProject.path,
+        path: String(newProject.id),
         framework: "javascript",
         isPublic: newProject.visibility === 'public',
         authorId: session.user.id,
       });
 
+      console.log("resdata : ", response.data);
+
       setProjects([...projects, { ...newProject, id: projectResponse.data.id }]);
       setNewTitle('');
       setSelectedVisibility('private');
       setFile(null);
-      setResponseId(projectResponse.data.id);
+      setResponseId(response.data.id);
+      setLoading(true);
+
+      console.log("responseId", responseId);
+      console.log("response.data.id", response.data.id);
+
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/analyze/?file_id=${response.data.id}`);
+      console.log(res.data);
     } catch (error) {
       console.error('업로드 실패:', error.response ? error.response.data : error.message);
     } finally {
@@ -135,14 +147,10 @@ const MyPage = () => {
   };
 
   const handleViewAnalysis = async (id) => {
-    setLoadingAnalysis(true);
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/analyze/?file_id=${id}`);
-      setAnalysisResult(response.data);
+      router.push(`/mypage/${id}`);
     } catch (error) {
-      console.error('분석 결과 가져오기 실패:', error.response ? error.response.data : error.message);
-    } finally {
-      setLoadingAnalysis(false);
+      console.error('페이지 이동 실패:', error.message);
     }
   };
 
@@ -150,6 +158,7 @@ const MyPage = () => {
     <div>
       <div className={styles.header}>
         <h1>My Projects</h1>
+        <div className={styles.inputContainer}>
         <input
           type="text"
           placeholder="제목을 입력하세요"
@@ -166,11 +175,12 @@ const MyPage = () => {
         <input type="file" name="file" accept='.zip' onChange={handleFileChange} />
         {file && <p className={styles.selectedFile}>선택된 파일: {file.name}</p>}
         {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button className={styles.button} onClick={handleCreateProject} disabled={loading}>
-          {loading ? <ClipLoader size={24} color="red" /> : '새 프로젝트'}
-        </button>
+        </div>
+        <div className={styles.buttonContainer}>
+        <button className={styles.button} onClick={handleCreateProject}>새 프로젝트</button>
         <button className={styles.button} onClick={handleModifyProject} disabled={selectedProjectIds.length === 0}>수정</button>
         <button className={styles.button} onClick={handleDeleteProject} disabled={selectedProjectIds.length === 0}>삭제</button>
+        </div>
       </div>
       <div className={styles.container}>
         {projects.map(project => (
@@ -180,19 +190,13 @@ const MyPage = () => {
             onClick={() => toggleProjectSelection(project.id)}
           >
             <h2>제목: {project.title}</h2>
-            <p>생성 날짜: {project.date}</p>
+            <p>생성 날짜: {project.updatedAT}</p>
             <p>공개 여부: {project.visibility === 'private' ? 'Private' : 'Public'}</p>
             <div className={styles.buttonGroup}>
-              <button className={styles.button} onClick={() => handleViewAnalysis(responseId)}>
-                {loadingAnalysis ? <ClipLoader size={24} color="red" /> : '분석 결과 보기'}
+              <button className={styles.button} onClick={() => handleViewAnalysis(Number(project.path))}>
+                {loading ? <ClipLoader size={24} color="red" /> : '분석 결과 보기'}
               </button>
             </div>
-            {analysisResult && (
-              <div className={styles.analysisResult}>
-                <h2>분석 결과</h2>
-                <ReactMarkdown>{typeof analysisResult === 'string' ? analysisResult : JSON.stringify(analysisResult)}</ReactMarkdown>
-              </div>
-            )}
           </div>
         ))}
       </div>
