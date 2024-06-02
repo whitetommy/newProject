@@ -11,9 +11,6 @@ export async function GET(req) {
       return NextResponse.json({ error: "인증되지 않음" }, { status: 401 });
     }
 
-    console.log(token.sub); //"13"이 찍힘
-
-    // 여기 에러
     const projects = await prisma.projects.findMany({
       where: {
         authorId: parseInt(token.sub),
@@ -36,6 +33,7 @@ export async function POST(req) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
     const { title, path, framework, isPublic, authorId } = await req.json();
+
     const newProject = await prisma.projects.create({
       data: {
         title,
