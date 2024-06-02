@@ -24,7 +24,7 @@ const MyPage = () => {
     const fetchProjects = async () => {
       if (!session) return;
       try {
-        const response = await axios.get('/api/project', {
+        const response = await axios.get(`/api/project`, {
           headers: {
             Authorization: `Bearer ${session.accessToken}`,
           },
@@ -92,10 +92,7 @@ const MyPage = () => {
           Authorization: `Bearer ${session.accessToken}`, 
         },
       });
-      console.log('업로드 성공:', response.data);
-      newProject.id = response.data.id; // 서버에서 반환된 파일 경로
-
-      const projectResponse = await axios.post('/api/project', {
+      const projectResponse = await axios.post(`/api/project`, {
         title: newProject.title,
         path: String(response.data.id),
         framework: "javascript",
@@ -111,7 +108,7 @@ const MyPage = () => {
         id: projectResponse.data.id,
         title: newTitle,
         updatedAt: new Date().toISOString(),
-        isPublic: selectedVisibility, // visibility 대신 isPublic 사용
+        isPublic: selectedVisibility,
         path: response.data.id,
       };
       
@@ -120,15 +117,10 @@ const MyPage = () => {
       setSelectedVisibility(false);
       setFile(null);
       setResponseId(response.data.id);
-      // setLoading(true);
-      // const res = await axios.get(`/api/analyze/?file_id=${response.data.id}`);
     } catch (error) {
       console.error('업로드 실패:', error.response ? error.response.data : error.message);
       setLoading(false);
     } 
-    // finally {
-    //   setLoading(false);
-    // }
   };
 
   const handleDeleteProject = async () => {

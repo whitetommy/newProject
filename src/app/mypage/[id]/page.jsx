@@ -14,8 +14,8 @@ const AnalysisPage = () => {
     if (id) {
       const fetchAnalysisResult = async () => {
         try {
-          console.log(`Fetching analysis result for file_id=${id}`);
-          const response = await axios.get(`/api/patch/?file_id=${id}`);
+          console.log(`Fetching 분석 결과: file_id=${id}`);
+          const response = await axios.get(`/patch/?file_id=${id}`);
           console.log('Response:', response);
           setAnalysisResult(response.data);
         } catch (error) {
