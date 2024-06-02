@@ -33,3 +33,19 @@
     width: 100%;
   }
 }
+
+.buttonGroup {
+  display: flex;
+  gap: 5px;
+}
+
+.button {
+  padding: 10px 25px;
+  margin: 5px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  background-color: var(--btn);
+  border-radius: 3px;
+  font-size: 16px;
+}

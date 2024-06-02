@@ -35,13 +35,13 @@ export async function POST(req) {
     if (!token) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-    const { title, path, framework, visibility, authorId } = await req.json();
+    const { title, path, framework, isPublic, authorId } = await req.json();
     const newProject = await prisma.projects.create({
       data: {
         title,
         path,
         framework,
-        isPublic: visibility === "public",
+        isPublic: Boolean(isPublic),
         authorId: parseInt(token.sub),
       },
     });

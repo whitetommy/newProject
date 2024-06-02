@@ -1,26 +1,45 @@
+'use client';
+
 import PostCard from "@/components/postCard/postCard";
 import styles from "./blog.module.css";
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
-const getData = async () => {
-  //const res = await fetch("https://new-project-eight-sigma.vercel.app/api/blog", {next:{revalidate:60}});
-  const res = await fetch("http://localhost:3000/api/blog", {next:{revalidate:10}});
+const BlogPage = () => {
+  const [posts, setPosts] = useState([]);
+  const router = useRouter();
 
-  if (!res.ok) {
-    throw new Error("Something went wrong");
-  }
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get(`/api/blog`);
+        setPosts(response.data);
+      } catch (error) {
+        console.error('포스트 fetching 에러:', error);
+      }
+    };
+    fetchPosts();
+  }, []);
 
-  return res.json();
-};
-
-const BlogPage = async () => {
-
-  const posts = await getData();
+  const handleViewAnalysis = async (id) => {
+    try {
+      router.push(`/mypage/${id}`);
+    } catch (error) {
+      console.error('페이지 이동 실패:', error.message);
+    }
+  };
 
   return (
     <div className={styles.container}>
       {posts.map((post) => (
         <div className={styles.post} key={post.id}>
           <PostCard post={post} />
+            <div className={styles.buttonGroup}>
+              <button className={styles.button} onClick={() => handleViewAnalysis(Number(post.path))}>
+              분석 결과 보기
+              </button>
+            </div>
         </div>
       ))}
     </div>
