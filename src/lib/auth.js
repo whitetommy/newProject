@@ -8,7 +8,6 @@ const login = async (credentials) => {
   const prisma = new PrismaClient({});
 
   try {
-    // sign in
     const user = await prisma.user.findFirst({
       where: {
         email: credentials.email,
@@ -24,7 +23,6 @@ const login = async (credentials) => {
       throw new Error("Wrong credentials!");
     }
   } catch (err) {
-    //throw new Error("Wrong credentials!");
     throw new Error("Failed to login!");
   }
 };

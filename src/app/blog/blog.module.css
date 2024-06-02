@@ -17,7 +17,6 @@
   color: black; 
 }
 
-/* postcard 눌렀을 때 색상 변화(연한 파란색) */
 .post:hover {
   background-color: #e0f7fa;
 }

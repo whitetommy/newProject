@@ -29,7 +29,7 @@ const AnalysisPage = () => {
   return (
     <div className={styles.container}>
       <h1 className={styles.reportMainTitle}>Report</h1>
-      {analysisResult && (
+      {analysisResult ? (
         <div className={styles.analysisResult}>
           <h2 className={styles.sectionTitle}>분석 결과</h2>
           <ReactMarkdown
@@ -48,6 +48,8 @@ const AnalysisPage = () => {
             {typeof analysisResult === 'string' ? analysisResult : JSON.stringify(analysisResult, null, 2)}
           </ReactMarkdown>
         </div>
+      ) : (
+        <p className={styles.noVulnerabilitiesMessage}>취약점을 발견하지 못하였습니다</p>
       )}
     </div>
   );

@@ -12,9 +12,6 @@ const PostCard = ({ post }) => {
         <p className={styles.desc}>
           최종 수정 날짜 : {formattedUpdatedAt}
         </p>
-        {/* <Link className={styles.link} href={`/blog/${post.slug}`}>
-          READ MORE
-        </Link> */}
       </div>
     </div>
   );

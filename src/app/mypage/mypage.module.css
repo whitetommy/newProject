@@ -68,17 +68,14 @@
   font-size: 16px;
 }
 
-/* 버튼에 마우스 커서 올렸을 때, 색상 변화(약간 어둡게) */
 .button:hover {
   background-color: #111a99;
 }
 
-/* 프로젝트 선택 시, 색상 변화(연한 파란색) */
 .selectedProject {
   background-color: #e0f7fa; 
 }
 
-/* 파일 업로드할 때, 파일명 보여주기 */
 .selectedFile {
   color: black;
   font-size: 16px;

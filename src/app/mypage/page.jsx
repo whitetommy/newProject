@@ -57,7 +57,7 @@ const MyPage = () => {
 
   const handleFileChange = async (e) => {
     const selectedFile = e.target.files[0];
-    const maxSizeInBytes = 100 * 1024 * 1024; // 100MB
+    const maxSizeInBytes = 100 * 1024 * 1024;
     if (selectedFile.size > maxSizeInBytes) {
       setError('최대 파일 크기 100MB');
       setFile(null);
@@ -109,8 +109,8 @@ const MyPage = () => {
           Authorization: `Bearer ${session.accessToken}`, 
         },
       });
-
-      newProject.id = response.data.id; // 서버에서 반환된 파일 경로
+      console.log('업로드 성공:', response.data);
+      newProject.id = response.data.id;
 
       const projectResponse = await axios.post(`/api/project`, {
         title: newProject.title,
