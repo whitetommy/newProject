@@ -1,19 +1,25 @@
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
+import jwt from "jsonwebtoken";
 
 const prisma = new PrismaClient();
 
 export async function GET(req) {
   try {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+    console.log('Token:', token);
+
     if (!token) {
       return NextResponse.json({ error: "인증되지 않음" }, { status: 401 });
     }
 
+    const decodedToken = jwt.verify(token.accessToken, process.env.JWT_SECRET);
+    console.log('Decoded Token:', decodedToken);
+
     const projects = await prisma.projects.findMany({
       where: {
-        authorId: parseInt(token.sub),
+        authorId: decodedToken.id,
       },
     });
 
