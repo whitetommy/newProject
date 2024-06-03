@@ -23,7 +23,6 @@ const MyPage = () => {
 
   useEffect(() => {
     const fetchProjects = async () => {
-      console.log("session", session);
       if (!session) return;
       try {
         const response = await axios.get(`/api/project`, {
