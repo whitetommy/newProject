@@ -209,7 +209,7 @@ const MyPage = () => {
         <div className={styles.inputContainer}>
         <input
           type="text"
-          placeholder="제목을 입력하세요"
+          placeholder="제목을 입력해주세요"
           value={newTitle}
           onChange={(e) => setNewTitle(e.target.value)}
         />
@@ -221,7 +221,7 @@ const MyPage = () => {
           <option value="true">Public</option>
         </select>
         <input type="file" name="file" accept='.zip' onChange={handleFileChange} />
-        {file && <p className={styles.selectedFile}>선택된 파일: {file.name}</p>}
+        {file && <p className={styles.selectedFile}>Selected File: {file.name}</p>}
         {error && <p style={{ color: 'red' }}>{error}</p>}
         </div>
         <div className={styles.buttonContainer}>

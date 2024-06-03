@@ -15,7 +15,7 @@ const Navbar = async () => {
             alt="Security Icon"
             className={styles.icon}
           />
-          SAST
+          AI_SAST
         </Link>
         <div>
           <Links session={session} />

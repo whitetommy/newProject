@@ -49,7 +49,7 @@ const AnalysisPage = () => {
           </ReactMarkdown>
         </div>
       ) : (
-        <p className={styles.noVulnerabilitiesMessage}>취약점을 발견하지 못하였습니다</p>
+        <p className={styles.noVulnerabilitiesMessage}>No detection for vulnerabilitie</p>
       )}
     </div>
   );
