@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { authConfig } from "./auth.config";
 import { PrismaClient } from "@prisma/client";
+import jwt from "jsonwebtoken";
 
 const login = async (credentials) => {
   const prisma = new PrismaClient({});
@@ -27,6 +28,17 @@ const login = async (credentials) => {
   }
 };
 
+const generateAccessToken = (user) => {
+  const payload = {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    isAdmin: user.isAdmin,
+  };
+
+  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+};
+
 export const {
   handlers: { GET, POST },
   auth,
@@ -40,6 +52,7 @@ export const {
         console.log("async authorize(credentials)");
         try {
           const user = await login(credentials);
+          user.accessToken = generateAccessToken(user);
           console.log("user_credentials");
           return user;
         } catch (err) {
