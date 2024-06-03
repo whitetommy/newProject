@@ -27,7 +27,7 @@ const MyPage = () => {
       try {
         const response = await axios.get(`/api/project`, {
           headers: {
-            Authorization: `Bearer ${session.accessToken}`,
+            "Authorization": `Bearer ${session.accessToken}`,
           },
         });
         setProjects(response.data);
