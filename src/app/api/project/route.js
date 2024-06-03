@@ -7,14 +7,13 @@ const prisma = new PrismaClient();
 
 export async function GET(req) {
   try {
-    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-    console.log('Token:', token);
-
-    if (!token) {
+    const authorizationHeader = req.headers.get('Authorization');
+    if (!authorizationHeader) {
       return NextResponse.json({ error: "인증되지 않음" }, { status: 401 });
     }
 
-    const decodedToken = jwt.verify(token.accessToken, process.env.JWT_SECRET);
+    const token = authorizationHeader.split(' ')[1];
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
     console.log('Decoded Token:', decodedToken);
 
     const projects = await prisma.projects.findMany({
