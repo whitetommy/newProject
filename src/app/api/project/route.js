@@ -33,11 +33,16 @@ export async function GET(req) {
 
 export async function POST(req) {
   try {
-    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-    if (!token) {
+    const authorizationHeader = req.headers.get('Authorization');
+    if (!authorizationHeader) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-    const { title, path, framework, isPublic, authorId } = await req.json();
+
+    const token = authorizationHeader.split(' ')[1];
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    console.log('Decoded Token:', decodedToken);
+
+    const { title, path, framework, isPublic } = await req.json();
 
     const newProject = await prisma.projects.create({
       data: {
@@ -45,7 +50,7 @@ export async function POST(req) {
         path,
         framework,
         isPublic: Boolean(isPublic),
-        authorId: parseInt(token.sub),
+        authorId: parseInt(decodedToken.id),
       },
     });
     return NextResponse.json(newProject, { status: 201 });
