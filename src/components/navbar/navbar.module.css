@@ -9,3 +9,8 @@
   font-size: 30px;
   font-weight: bold;
 }
+
+.icon {
+  margin-right: 8px; 
+  vertical-align: middle; 
+}

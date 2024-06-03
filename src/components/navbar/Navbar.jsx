@@ -10,7 +10,12 @@ const Navbar = async () => {
     <div>
       <div className={styles.container}>
         <Link href="/" className={styles.logo}>
-          WebSiteName
+          <img
+            src="https://img.icons8.com/external-anggara-blue-anggara-putra/32/external-security-security-anggara-blue-anggara-putra-3.png"
+            alt="Security Icon"
+            className={styles.icon}
+          />
+          SAST
         </Link>
         <div>
           <Links session={session} />

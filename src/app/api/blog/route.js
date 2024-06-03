@@ -16,5 +16,7 @@ export async function GET(req) {
       { error: "Failed to fetch projects" },
       { status: 500 }
     );
+  } finally {
+    await prisma.$disconnect(); // Prisma 클라이언트 연결을 닫기
   }
 }
