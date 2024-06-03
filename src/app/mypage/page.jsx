@@ -23,11 +23,12 @@ const MyPage = () => {
 
   useEffect(() => {
     const fetchProjects = async () => {
+      console.log(session);
       if (!session) return;
       try {
         const response = await axios.get(`/api/project`, {
           headers: {
-            "Authorization": `Bearer ${session.accessToken}`,
+            Authorization: `Bearer ${session.accessToken}`,
           },
         });
         setProjects(response.data);
