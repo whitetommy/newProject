@@ -10,9 +10,14 @@ const axiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  timeout: 60000,
 });
 
-export const runtime = 'nodejs';
+export const config = {
+  maxDuration: 60,
+}
+
+// export const runtime = 'nodejs';
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
