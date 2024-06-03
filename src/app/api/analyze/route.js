@@ -13,9 +13,7 @@ const axiosInstance = axios.create({
   timeout: 60000,
 });
 
-export const config = {
-  maxDuration: 60,
-}
+export const maxDuration = 60;
 
 // export const runtime = 'nodejs';
 
