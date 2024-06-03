@@ -15,8 +15,6 @@ const axiosInstance = axios.create({
 
 export const maxDuration = 60;
 
-// export const runtime = 'nodejs';
-
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const fileId = searchParams.get('file_id');
@@ -27,6 +25,11 @@ export async function GET(request) {
 
   try {
     const response = await axiosInstance.get(`/analyze/?file_id=${fileId}`);
+
+    if (!response.data || Object.keys(response.data).length === 0) {
+      return NextResponse.json({ message: '취약점이 없습니다' }, { status: 200 });
+    }
+    
     return NextResponse.json(response.data, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: error.response?.status || 500 });
