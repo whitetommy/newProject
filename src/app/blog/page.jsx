@@ -24,7 +24,7 @@ const BlogPage = () => {
       }
     };
     fetchPosts();
-  }, []);
+  }, [router]);
 
   const handleViewAnalysis = async (id) => {
     try {
