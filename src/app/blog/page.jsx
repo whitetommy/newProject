@@ -15,7 +15,7 @@ const BlogPage = () => {
       try {
         const response = await axios.get(`/api/blog`,{
           headers: {
-            'Cache-Control': 'no-cache',
+            'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0',
           },
         });
         setPosts(response.data);
