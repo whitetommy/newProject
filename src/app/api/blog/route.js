@@ -10,13 +10,21 @@ export async function GET(req) {
         isPublic: true,
       },
     });
-    return NextResponse.json(posts, { status: 200 });
+    const response = NextResponse.json(posts, { status: 200 });
+    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    response.headers.set('Pragma', 'no-cache');
+    response.headers.set('Expires', '0');
+    return response;
   } catch (error) {
-    return NextResponse.json(
+    const response = NextResponse.json(
       { error: "Failed to fetch projects" },
       { status: 500 }
     );
+    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    response.headers.set('Pragma', 'no-cache');
+    response.headers.set('Expires', '0');
+    return response;
   } finally {
-    await prisma.$disconnect(); // Prisma 클라이언트 연결을 닫기
+    await prisma.$disconnect();
   }
 }
