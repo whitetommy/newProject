@@ -13,7 +13,11 @@ const BlogPage = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get(`/api/blog`);
+        const response = await axios.get(`/api/blog`,{
+          headers: {
+            'Cache-Control': 'no-cache',
+          },
+        });
         setPosts(response.data);
       } catch (error) {
         console.error('포스트 fetching 에러:', error);
