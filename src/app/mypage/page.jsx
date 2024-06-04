@@ -21,20 +21,21 @@ const MyPage = () => {
   const {data: session, status} = useSession();
   const router = useRouter();
 
+  const fetchProjects = async () => {
+    if (!session) return;
+    try {
+      const response = await axios.get(`/api/project`, {
+        headers: {
+          Authorization: `Bearer ${session.accessToken}`,
+        },
+      });
+      setProjects(response.data);
+    } catch (error) {
+      console.error('프로젝트 fetching 에러:', error);
+    }
+  };
+
   useEffect(() => {
-    const fetchProjects = async () => {
-      if (!session) return;
-      try {
-        const response = await axios.get(`/api/project`, {
-          headers: {
-            Authorization: `Bearer ${session.accessToken}`,
-          },
-        });
-        setProjects(response.data);
-      } catch (error) {
-        console.error('프로젝트 fetching 에러:', error);
-      }
-    };
     fetchProjects();
   }, [session]);
 
@@ -180,6 +181,8 @@ const MyPage = () => {
       }
       return project;
     });
+
+    fetchProjects();
     setProjects(updatedProjects);
     setNewTitle('');
     setSelectedVisibility(false);
