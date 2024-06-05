@@ -140,7 +140,6 @@ const MyPage = () => {
       setResponseId(response.data.id);
     } catch (error) {
       console.error('업로드 실패:', error.response ? error.response.data : error.message);
-      setLoading(false);
     } 
   };
 

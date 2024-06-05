@@ -26,7 +26,9 @@ export async function GET(request) {
   }
 
   try {
-    const response = await axiosInstance.get(`/patch/?file_id=${fileId}`);
+    const response = await axiosInstance.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/patch/?file_id=${fileId}`
+    );
     return NextResponse.json(response.data, { status: 200 });
   } catch (error) {
     return NextResponse.json(

@@ -11,7 +11,6 @@ export async function GET(req) {
         isPublic: true,
       },
     });
-
     revalidatePath("/blog");
     return NextResponse.json(posts, { status: 200 });
   } catch (error) {

@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
-import { getToken } from "next-auth/jwt";
 import jwt from "jsonwebtoken";
 import { revalidatePath } from "next/cache";
 
@@ -8,14 +7,14 @@ const prisma = new PrismaClient();
 
 export async function GET(req) {
   try {
-    const authorizationHeader = req.headers.get('Authorization');
+    const authorizationHeader = req.headers.get("Authorization");
     if (!authorizationHeader) {
       return NextResponse.json({ error: "인증되지 않음" }, { status: 401 });
     }
 
-    const token = authorizationHeader.split(' ')[1];
+    const token = authorizationHeader.split(" ")[1];
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    console.log('Decoded Token:', decodedToken);
+    console.log("Decoded Token:", decodedToken);
 
     const projects = await prisma.projects.findMany({
       where: {
@@ -35,14 +34,14 @@ export async function GET(req) {
 
 export async function POST(req) {
   try {
-    const authorizationHeader = req.headers.get('Authorization');
+    const authorizationHeader = req.headers.get("Authorization");
     if (!authorizationHeader) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const token = authorizationHeader.split(' ')[1];
+    const token = authorizationHeader.split(" ")[1];
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    console.log('Decoded Token:', decodedToken);
+    console.log("Decoded Token:", decodedToken);
 
     const { title, path, framework, isPublic } = await req.json();
 
