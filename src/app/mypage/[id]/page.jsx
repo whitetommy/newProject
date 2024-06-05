@@ -44,7 +44,7 @@ const AnalysisPage = () => {
       } catch (error) {
         console.error('파일 상태 가져오기 실패:', error.response ? error.response.data : error.message);
       }
-    }, 30000);
+    }, 1000);
   };
 
   const fetchReport = async (fileId) => {
