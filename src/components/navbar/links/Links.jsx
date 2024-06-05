@@ -3,6 +3,7 @@
 import styles from "./links.module.css";
 import NavLink from "./navLink/navLink";
 import { handleLogout } from "@/lib/action";
+import { useRouter } from "next/navigation";
 
 const links = [
   {
@@ -16,6 +17,14 @@ const links = [
 ];
 
 const Links = ({ session }) => {
+  const router = useRouter();
+
+  const handleLogoutClick = async (e) => {
+    e.preventDefault();
+    await handleLogout();
+    router.push('/');
+  };
+  
   return (
     <div className={styles.container}>
       <div className={styles.links}>
@@ -28,9 +37,7 @@ const Links = ({ session }) => {
             {session.user?.isAdmin && (
               <NavLink item={{ title: "Admin", path: "/admin" }} />
             )}
-            <form action={handleLogout}>
-              <button className={styles.logout}>Logout</button>
-            </form>
+            <button className={styles.logout} onClick={handleLogoutClick}>Logout</button>
           </>
         ) : (
           <NavLink item={{ title: "Login", path: "/login" }} />
